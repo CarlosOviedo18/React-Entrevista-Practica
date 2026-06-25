@@ -1,3 +1,7 @@
+// /@.*\./
+
+// /^.{6,}$/
+
 import { useState } from "react";
 
 export default function RegisterForm() {
@@ -5,18 +9,14 @@ export default function RegisterForm() {
   const [password, setPassword] = useState("");
   const [showMessage, setShowMessage] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (email.trim() && password.trim() !== "") {
-      setEmail("");
-      setPassword("");
-      setShowMessage(true);
-    }
+  const handleSubmit = () => {
+    setEmail("");
+    setPassword("");
+    setShowMessage(true);
   };
 
-  const validateEmail = (email) => {
-    return /@.*\./.test(email.toLowerCase());
+  const validateEmail = () => {
+    return /@.*\./.test(email.toLocaleLowerCase());
   };
 
   const validatePassword = () => {
@@ -25,35 +25,43 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Email:</label>
-      <input
-        type="text"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
 
       <div>{email && !validateEmail(email) && <p>Email Incorrect</p>}</div>
 
-      <label htmlFor="password">Password:</label>
-      <input
-        type="text"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
       <div>
-        {password && !validatePassword(password) && <p>Password Incorrect</p>}
+        <label htmlFor="password">Password:</label>
+        <input
+          type="text"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+
+      <div>
+        {password && !validatePassword(password) && <p>password Incorrect</p>}
       </div>
 
       <div>
         <button
-          type="submit"
-          disabled={!validateEmail(email) && !validatePassword(password)}
+          disabled={!(validateEmail(email) && validatePassword(password))}
         >
           Send
         </button>
       </div>
 
-      {showMessage && <p>All Correct</p>}
+      <div>
+        {showMessage && <p>All CORRECT</p>}
+      </div>
+
+
     </form>
   );
 }
