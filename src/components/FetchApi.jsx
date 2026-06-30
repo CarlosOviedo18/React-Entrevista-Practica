@@ -8,6 +8,7 @@
 // Cuando los datos llegan, mostrarlos en una lista.
 
 // Restricciones técnicas:
+
 // Usar useState y useEffect.
 // Usar fetch (viene en el navegador, no instales nada).
 // API sugerida: https://jsonplaceholder.typicode.com/users (devuelve 10 usuarios con nombre, email, etc.).
@@ -15,9 +16,10 @@
 import { useState, useEffect } from "react";
 
 export default function FetchApi() {
-  const [data, setData] = useState([]);
-  const [itLoading, setItLoading] = useState(true);
+  
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -26,15 +28,15 @@ export default function FetchApi() {
           "https://jsonplaceholder.typicode.com/users",
         );
         if (response.ok) {
-          const userData = await response.json();
-          setData(userData);
-          setItLoading(false);
+          const dataUser = await response.json();
+          setData(dataUser);
+          setLoading(false);
         } else {
-          throw new Error("the answer wasn't succesful");
+          throw new Error("The answer wasn't successful");
         }
       } catch (error) {
         setError(error);
-        setItLoading(false);
+        setLoading(false);
       }
     }
     fetchUsers();
@@ -42,19 +44,17 @@ export default function FetchApi() {
 
   return (
     <div>
-      <div>{itLoading && <p>Loding...</p>}</div>
+      <div>{loading && <p>Loading...</p>}</div>
 
       <div>
         <ul>
           {data.map((item) => (
-            <li key={item.id}>
-              {item.id} - {item.name}
-            </li>
+            <li key={item.id}>{item.name}</li>
           ))}
         </ul>
       </div>
 
-      <div>{error && <p>{error.message}</p>}</div>
+      {error && <p>{error.message}</p>}
     </div>
   );
 }
