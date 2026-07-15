@@ -19,9 +19,10 @@ export default function RegisterForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setEmail("");
-    setPassword("");
-    setShowMessage(true);
+      setEmail("");
+      setPassword("");
+      setShowMessage(true);
+  
   };
 
   const validateEmail = (email) => {
@@ -39,10 +40,12 @@ export default function RegisterForm() {
         <input
           type="text"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
         />
 
-        {email && !validateEmail(email) && <p>Email incorrect</p>}
+        {email && !validateEmail(email) && <p>Email Incorrect</p>}
       </div>
 
       <div>
@@ -50,22 +53,28 @@ export default function RegisterForm() {
         <input
           type="text"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
         />
 
-        {password && !validatePassword(password) && <p>Password incorrect</p>}
+        {password && !validatePassword(password) && <p>Password Incorrect</p>}
       </div>
 
       <div>
         <button
-          type="submit"
-          disabled={!validateEmail(email) && !validatePassword(password)}
+          disabled={!(validateEmail(email) && validatePassword(password))}
         >
-          Send
+          Send Info
         </button>
       </div>
 
-      <div>{showMessage && <p>All Correct</p>}</div>
+
+          <div>
+            {showMessage && <p>All correct</p>}
+          </div>
+
+
     </form>
   );
 }

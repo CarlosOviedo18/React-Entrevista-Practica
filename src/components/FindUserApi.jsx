@@ -20,68 +20,57 @@ import { useState, useEffect } from "react";
 
 export default function FetchApi() {
   const [data, setData] = useState([]);
-  const [itsLoading, setItsLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [searchId, setSearchId] = useState("");
-  const [userFind, setUserFind] = useState([]);
-
-  function handleSearch() {
-    const usuarioBuscado = data.filter(
-      (usuario) => usuario.id === Number(searchId)
-    );
-
-    setUserFind(usuarioBuscado);
-  }
+  const [itLoading, setItsLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [writeUser, setWriteUser] = useState("");
 
   useEffect(() => {
-    async function fetchUsers() {
+    async function fetchUser() {
       try {
         const response = await fetch(
           "https://jsonplaceholder.typicode.com/users"
         );
 
         if (!response.ok) {
-          throw new Error("The response wasn't successful");
+          throw new Error("Error al obtener los usuarios");
         }
 
         const userData = await response.json();
         setData(userData);
       } catch (error) {
-        setError(error);
+        setError(error.message);
       } finally {
         setItsLoading(false);
       }
     }
 
-    fetchUsers();
+    fetchUser();
   }, []);
+
+  const usersFiltered = data.filter((user) =>
+    user.name.toLowerCase().includes(writeUser.toLowerCase())
+  );
 
   return (
     <div>
-      {itsLoading && <p>Loading...</p>}
+      <label>Search:</label>
 
-      <div>
-        <input
-          type="text"
-          value={searchId}
-          onChange={(e) => setSearchId(e.target.value)}
-          placeholder="Enter user ID"
-        />
+      <input
+        type="text"
+        value={writeUser}
+        onChange={(e) => setWriteUser(e.target.value)}
+        placeholder="Buscar usuario..."
+      />
 
-        <button onClick={handleSearch}>
-          Find User
-        </button>
-      </div>
+      {itLoading && <p>Loading...</p>}
+
+      {error && <p>{error}</p>}
 
       <ul>
-        {userFind.map((item) => (
-          <li key={item.id}>
-            {item.name}
-          </li>
+        {usersFiltered.map((user) => (
+          <li key={user.id}>{user.name}</li>
         ))}
       </ul>
-
-      {error && <p>{error.message}</p>}
     </div>
   );
 }

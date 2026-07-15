@@ -16,45 +16,46 @@
 import { useState, useEffect } from "react";
 
 export default function FetchApi() {
-  
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [itLoading, setItsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    async function fetchUsers() {
+    async function fecthUser() {
       try {
         const response = await fetch(
           "https://jsonplaceholder.typicode.com/users",
         );
         if (response.ok) {
-          const dataUser = await response.json();
-          setData(dataUser);
-          setLoading(false);
+          const userData = await response.json();
+          setData(userData);
+          setItsLoading(false);
+          // console.log(userData)
         } else {
-          throw new Error("The answer wasn't successful");
+          throw new Error("the response wasn't successful");
         }
       } catch (error) {
         setError(error);
-        setLoading(false);
+        setItsLoading(false);
       }
     }
-    fetchUsers();
+    fecthUser();
   }, []);
 
   return (
     <div>
-      <div>{loading && <p>Loading...</p>}</div>
+      <div>{itLoading && <p>Loding...</p>}</div>
 
-      <div>
-        <ul>
-          {data.map((item) => (
-            <li key={item.id}>{item.name}</li>
-          ))}
-        </ul>
-      </div>
+      <ul>
+        {data.map((item) => (
+          <li key={item.id}>{item.name}</li>
+        ))}
+      </ul>
 
-      {error && <p>{error.message}</p>}
+        <div>
+          {error && <p>{error.message}</p>}
+        </div>
+
     </div>
   );
 }

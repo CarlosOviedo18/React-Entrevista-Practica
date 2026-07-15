@@ -26,23 +26,24 @@ export default function Form() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="task">Task:</label>
-        <input
-          type="text"
-          value={task}
-          onChange={(e) => setTask(e.target.value)}
-        />
+      <label htmlFor="task">Task:</label>
+      <input
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+      />
 
-        <button type="submit">Save Task</button>
-      </div>
+      <button type="submit">Save Task</button>
 
       <ul>
         {tasks.map((item) => (
           <li key={item.id}>
-            
-            {item.text} <button onClick={() => setTasks(tasks.filter((t) => t.id !== item.id))} >Delete</button>
-
+            {item.text}{" "}
+            <button
+             onClick={() => setTasks(tasks.filter((t) => t.id !== item.id))}
+            >
+              Delete
+            </button>
           </li>
         ))}
       </ul>
