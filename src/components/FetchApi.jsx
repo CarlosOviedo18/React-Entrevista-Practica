@@ -21,41 +21,53 @@ export default function FetchApi() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    async function fecthUser() {
+    async function fetchUsers() {
       try {
         const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users",
+          "https://jsonplaceholder.typicode.com/user",
         );
         if (response.ok) {
           const userData = await response.json();
           setData(userData);
           setItsLoading(false);
-          // console.log(userData)
-        } else {
-          throw new Error("the response wasn't successful");
+
+          // console.log(userData);
         }
+        throw new Error("the response wasn't sucefull")
       } catch (error) {
         setError(error);
         setItsLoading(false);
       }
     }
-    fecthUser();
+
+fetchUsers();
+
   }, []);
 
+
   return (
+
     <div>
-      <div>{itLoading && <p>Loding...</p>}</div>
 
-      <ul>
-        {data.map((item) => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
+    {itLoading && <p>Loading....</p>}
 
-        <div>
-          {error && <p>{error.message}</p>}
-        </div>
+    <ul>
+      {data.map((item) => (
+        <li key={item.id}>
+          {item.name}
+        </li>
+      ))}
+    </ul>
+
+
+  {error && <p>{error.message}</p>}
+
 
     </div>
-  );
+
+  )
+
+
+
+
 }

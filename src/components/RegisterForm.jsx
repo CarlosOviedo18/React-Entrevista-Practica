@@ -19,10 +19,9 @@ export default function RegisterForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-      setEmail("");
-      setPassword("");
-      setShowMessage(true);
-  
+    setEmail("");
+    setPassword("");
+    setShowMessage(true);
   };
 
   const validateEmail = (email) => {
@@ -35,46 +34,33 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
+      <label htmlFor="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-        {email && !validateEmail(email) && <p>Email Incorrect</p>}
-      </div>
+      <div>{email && !validateEmail(email) && <p>Email incorrect</p>}</div>
 
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="text"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-
-        {password && !validatePassword(password) && <p>Password Incorrect</p>}
-      </div>
+      <label htmlFor="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
 
       <div>
-        <button
-          disabled={!(validateEmail(email) && validatePassword(password))}
-        >
-          Send Info
-        </button>
+        {password && !validatePassword(password) && <p>Password incorrect</p>}
       </div>
 
+      <button disabled={!(validateEmail(email) && validatePassword(password))}>
+        Login
+      </button>
 
-          <div>
-            {showMessage && <p>All correct</p>}
-          </div>
-
-
+      <div>{showMessage && <h2>Login susceefull</h2>}</div>
     </form>
   );
 }

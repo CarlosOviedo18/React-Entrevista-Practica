@@ -18,6 +18,7 @@ export default function Form() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (task.trim() !== "") {
       setTasks([...tasks, { id: Date.now(), text: task }]);
       setTask("");
@@ -26,25 +27,21 @@ export default function Form() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="task">Task:</label>
+    <label htmlFor="task">Task:</label>
       <input
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}
       />
 
-      <button type="submit">Save Task</button>
+      <button>Save</button>
 
       <ul>
         {tasks.map((item) => (
-          <li key={item.id}>
-            {item.text}{" "}
-            <button
-             onClick={() => setTasks(tasks.filter((t) => t.id !== item.id))}
-            >
-              Delete
-            </button>
-          </li>
+          <li key={item.id}>{item.text}
+          
+          <button onClick={() => setTasks(tasks.filter((t) => t.id !== item.id))}>Delete</button>
+          </li> 
         ))}
       </ul>
     </form>
